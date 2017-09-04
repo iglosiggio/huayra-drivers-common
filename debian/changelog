@@ -1,3 +1,10 @@
+ubuntu-drivers-common (1:0.4.21) UNRELEASED; urgency=medium
+
+  * Removed unused quirks and nvidia subsystem
+  * Preparing for Huayra GNU/Linux
+
+ -- Ignacio Losiggio <iglosiggio@gmail.com>  Mon, 04 Sep 2017 14:54:15 -0300
+
 ubuntu-drivers-common (1:0.4.20) yakkety; urgency=medium
 
   * Remove PackageKit plugin. This stopped working with packagekit 1.0 as its

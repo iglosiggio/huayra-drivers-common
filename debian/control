@@ -29,7 +29,7 @@ Vcs-Git: git://github.com/iglosiggio/huayra-drivers-common.git
 Vcs-Browser: https://github.com/iglosiggio/huayra-drivers-common
 X-Python3-Version: >= 3.2
 
-Package: ubuntu-drivers-common
+Package: huayra-drivers-common
 Architecture: any
 Pre-Depends: dpkg (>= 1.15.7.2)
 Depends: ${python3:Depends},
@@ -51,7 +51,7 @@ Description: Detect and install additional Ubuntu driver packages
   - a Python API for detecting driver packages for a particular piece of
     hardware or the whole system.
  .
-  - an "ubuntu-drivers" command line tool to list or install driver packages
+  - an "huayra-drivers" command line tool to list or install driver packages
     (mostly for integration in installers).
 
 Package: dh-modaliases
