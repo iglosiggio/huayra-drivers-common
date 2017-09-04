@@ -92,7 +92,7 @@ class DetectTest(unittest.TestCase):
 
         # no custom detection plugins by default
         self.plugin_dir = tempfile.mkdtemp()
-        os.environ['UBUNTU_DRIVERS_DETECT_DIR'] = self.plugin_dir
+        os.environ['HUAYRA_DRIVERS_DETECT_DIR'] = self.plugin_dir
 
     def tearDown(self):
         shutil.rmtree(self.plugin_dir)
@@ -531,7 +531,7 @@ APT::Get::AllowUnauthenticated "true";
 
         # no custom detection plugins by default
         klass.plugin_dir = os.path.join(klass.chroot.path, 'detect')
-        os.environ['UBUNTU_DRIVERS_DETECT_DIR'] = klass.plugin_dir
+        os.environ['HUAYRA_DRIVERS_DETECT_DIR'] = klass.plugin_dir
 
         # avoid failures due to unexpected udevadm debug messages if kernel is
         # booted with "debug"
@@ -737,7 +737,7 @@ class PluginsTest(unittest.TestCase):
         '''shipped plugins work without errors or crashes'''
 
         env = os.environ.copy()
-        env['UBUNTU_DRIVERS_DETECT_DIR'] = os.path.join(ROOT_DIR, 'detect-plugins')
+        env['HUAYRA_DRIVERS_DETECT_DIR'] = os.path.join(ROOT_DIR, 'detect-plugins')
 
         ud = subprocess.Popen([os.path.join(ROOT_DIR, 'huayra-drivers'), 'debug'],
                 universal_newlines=True, stdout=subprocess.PIPE,
@@ -759,7 +759,7 @@ class KernelDectionTest(unittest.TestCase):
 
         # no custom detection plugins by default
         self.plugin_dir = tempfile.mkdtemp()
-        os.environ['UBUNTU_DRIVERS_DETECT_DIR'] = self.plugin_dir
+        os.environ['HUAYRA_DRIVERS_DETECT_DIR'] = self.plugin_dir
 
     def tearDown(self):
         shutil.rmtree(self.plugin_dir)

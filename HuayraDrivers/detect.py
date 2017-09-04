@@ -444,8 +444,8 @@ def detect_plugin_packages(apt_cache=None):
 
     Some driver packages cannot be identified by modaliases, but need some
     custom code for determining whether they apply to the system. Read all *.py
-    files in /usr/share/ubuntu-drivers-common/detect/ or
-    $UBUNTU_DRIVERS_DETECT_DIR and call detect(apt_cache) on them. Filter the
+    files in /usr/share/huayra-drivers-common/detect/ or
+    $HUAYRA_DRIVERS_DETECT_DIR and call detect(apt_cache) on them. Filter the
     returned lists for packages which are available for installation, and
     return the joined results.
 
@@ -455,8 +455,8 @@ def detect_plugin_packages(apt_cache=None):
     Return pluginname -> [package, ...] map.
     '''
     packages = {}
-    plugindir = os.environ.get('UBUNTU_DRIVERS_DETECT_DIR',
-            '/usr/share/ubuntu-drivers-common/detect/')
+    plugindir = os.environ.get('HUAYRA_DRIVERS_DETECT_DIR',
+            '/usr/share/huayra-drivers-common/detect/')
     if not os.path.isdir(plugindir):
         logging.debug('Custom detection plugin directory %s does not exist', plugindir)
         return packages
