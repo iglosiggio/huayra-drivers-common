@@ -4,7 +4,7 @@ DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 py3sdo=set -e; $(foreach py, $(shell py3versions -r), $(py) $(1);)
 
 %:
-	dh "$@" --with python3,apport
+	dh "$@" --with python3
 
 override_dh_auto_build:
 	$(call py3sdo, setup.py build)

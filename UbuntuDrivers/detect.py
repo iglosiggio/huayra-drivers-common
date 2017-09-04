@@ -174,7 +174,10 @@ def _is_package_from_distro(pkg):
         return False
 
     for o in pkg.candidate.origins:
-        if o.origin == 'Ubuntu':
+        if o.origin == 'Debian' or o.origin == 'Huayra':
+            return True
+        # TODO: borrar esto y configurar bien el repo
+        if o.site == 'repo.huayra.conectarigualdad.gob.ar':
             return True
     return False
 
