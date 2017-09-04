@@ -16,7 +16,7 @@ import functools
 
 import apt
 
-from UbuntuDrivers import kerneldetection
+from HuayraDrivers import kerneldetection
 
 system_architecture = apt.apt_pkg.get_architectures()[0]
 

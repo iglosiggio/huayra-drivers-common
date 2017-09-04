@@ -17,7 +17,7 @@ import os
 import logging
 import apt
 
-import UbuntuDrivers.detect
+import HuayraDrivers.detect
 
 def parse_args():
     '''Parse command line arguments.'''
@@ -43,7 +43,7 @@ def parse_args():
 def command_list(args):
     '''Show all driver packages which apply to the current system.'''
 
-    packages = UbuntuDrivers.detect.system_driver_packages()
+    packages = HuayraDrivers.detect.system_driver_packages()
     print('\n'.join(packages))
 
     return 0
@@ -51,7 +51,7 @@ def command_list(args):
 def command_devices(args):
     '''Show all devices which need drivers, and which packages apply to them.'''
 
-    drivers = UbuntuDrivers.detect.system_device_drivers()
+    drivers = HuayraDrivers.detect.system_device_drivers()
     for device, info in drivers.items():
         print('== %s ==' % device)
         for k, v in info.items():
@@ -81,8 +81,8 @@ def command_autoinstall(args):
 
     cache = apt.Cache()
 
-    packages = UbuntuDrivers.detect.system_driver_packages(cache)
-    packages = UbuntuDrivers.detect.auto_install_filter(packages)
+    packages = HuayraDrivers.detect.system_driver_packages(cache)
+    packages = HuayraDrivers.detect.auto_install_filter(packages)
     if not packages:
         print('No drivers found for automatic installation.')
         return
@@ -114,10 +114,10 @@ def command_debug(args):
     logging.basicConfig(level=logging.DEBUG, stream=sys.stdout)
 
     print('=== log messages from detection ===')
-    aliases = UbuntuDrivers.detect.system_modaliases()
+    aliases = HuayraDrivers.detect.system_modaliases()
     cache = apt.Cache()
-    packages = UbuntuDrivers.detect.system_driver_packages(cache)
-    auto_packages = UbuntuDrivers.detect.auto_install_filter(packages)
+    packages = HuayraDrivers.detect.system_driver_packages(cache)
+    auto_packages = HuayraDrivers.detect.auto_install_filter(packages)
 
     print('=== modaliases in the system ===')
     for alias in aliases:

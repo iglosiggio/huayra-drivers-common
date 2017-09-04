@@ -21,8 +21,8 @@ from gi.repository import UMockdev
 import apt
 import aptdaemon.test
 
-import UbuntuDrivers.detect
-import UbuntuDrivers.kerneldetection
+import HuayraDrivers.detect
+import HuayraDrivers.kerneldetection
 
 import testarchive
 
@@ -83,7 +83,7 @@ def gen_fakearchive():
 
 
 class DetectTest(unittest.TestCase):
-    '''Test UbuntuDrivers.detect'''
+    '''Test HuayraDrivers.detect'''
 
     def setUp(self):
         '''Create a fake sysfs'''
@@ -99,21 +99,21 @@ class DetectTest(unittest.TestCase):
 
         # most test cases switch the apt root, so the apt.Cache() cache becomes
         # unreliable; reset it
-        UbuntuDrivers.detect.packages_for_modalias.cache_maps = {}
+        HuayraDrivers.detect.packages_for_modalias.cache_maps = {}
 
     @unittest.skipUnless(os.path.isdir('/sys/devices'), 'no /sys dir on this system')
     def test_system_modaliases_system(self):
         '''system_modaliases() for current system'''
 
         del self.umockdev
-        res = UbuntuDrivers.detect.system_modaliases()
+        res = HuayraDrivers.detect.system_modaliases()
         self.assertGreater(len(res), 3)
         self.assertTrue(':' in list(res)[0])
 
     def test_system_modalises_fake(self):
         '''system_modaliases() for fake sysfs'''
 
-        res = UbuntuDrivers.detect.system_modaliases()
+        res = HuayraDrivers.detect.system_modaliases()
         self.assertEqual(set(res), set(['pci:v00001234d00sv00000001sd00bc00sc00i00',
             'pci:vDEADBEEFd00', 'usb:v9876dABCDsv01sd02bc00sc01i05',
             modalias_nv]))
@@ -128,7 +128,7 @@ class DetectTest(unittest.TestCase):
             self.umockdev.add_device('usb', 'usbdev%i' % i, None, ['modalias', 'usb:s%04X' % i], [])
 
         start = resource.getrusage(resource.RUSAGE_SELF)
-        UbuntuDrivers.detect.system_driver_packages()
+        HuayraDrivers.detect.system_driver_packages()
         stop = resource.getrusage(resource.RUSAGE_SELF)
 
         sec = (stop.ru_utime + stop.ru_stime) - (start.ru_utime + start.ru_stime)
@@ -158,7 +158,7 @@ class DetectTest(unittest.TestCase):
                                extra_tags={'Modaliases': 'nv(pci:v000010DEd000010C3sv*sd*bc03sc*i*)'})
             chroot.add_repository(archive.path, True, False)
             cache = apt.Cache(rootdir=chroot.path)
-            res = UbuntuDrivers.detect.system_driver_packages(cache)
+            res = HuayraDrivers.detect.system_driver_packages(cache)
         finally:
             chroot.remove()
         self.assertEqual(set(res), set(['chocolate', 'vanilla', 'nvidia-current',
@@ -219,7 +219,7 @@ Description: broken \xEB encoding
 ''')
             chroot.add_repository(archive.path, True, False)
             cache = apt.Cache(rootdir=chroot.path)
-            res = UbuntuDrivers.detect.system_driver_packages(cache)
+            res = HuayraDrivers.detect.system_driver_packages(cache)
         finally:
             chroot.remove()
 
@@ -231,7 +231,7 @@ Description: broken \xEB encoding
         with open(os.path.join(self.plugin_dir, 'extra.py'), 'w') as f:
             f.write('def detect(apt): return ["coreutils", "no_such_package"]\n')
 
-        res = UbuntuDrivers.detect.system_driver_packages() 
+        res = HuayraDrivers.detect.system_driver_packages() 
         self.assertTrue('coreutils' in res, list(res.keys()))
         self.assertEqual(res['coreutils'], {'free': True, 'from_distro': True, 'plugin': 'extra.py'})
 
@@ -255,7 +255,7 @@ Description: broken \xEB encoding
                                extra_tags={'Modaliases': 'nv(pci:v000010DEd000010C3sv*sd*bc03sc*i*)'})
             chroot.add_repository(archive.path, True, False)
             cache = apt.Cache(rootdir=chroot.path)
-            res = UbuntuDrivers.detect.system_device_drivers(cache)
+            res = HuayraDrivers.detect.system_device_drivers(cache)
         finally:
             chroot.remove()
 
@@ -298,7 +298,7 @@ Description: broken \xEB encoding
         with open(os.path.join(self.plugin_dir, 'extra.py'), 'w') as f:
             f.write('def detect(apt): return ["coreutils", "no_such_package"]\n')
 
-        res = UbuntuDrivers.detect.system_device_drivers()
+        res = HuayraDrivers.detect.system_device_drivers()
         self.assertTrue('extra.py' in res, list(res.keys()))
         self.assertEqual(res['extra.py'],
                          {'drivers': {'coreutils': {'free': True, 'from_distro': True}}})
@@ -327,7 +327,7 @@ exec /sbin/modinfo "$@"
             orig_path = os.environ['PATH']
             os.environ['PATH'] = '%s:%s' % (chroot.path, os.environ['PATH'])
 
-            res = UbuntuDrivers.detect.system_device_drivers(cache)
+            res = HuayraDrivers.detect.system_device_drivers(cache)
         finally:
             chroot.remove()
             os.environ['PATH'] = orig_path
@@ -342,21 +342,21 @@ exec /sbin/modinfo "$@"
     def test_auto_install_filter(self):
         '''auto_install_filter()'''
 
-        self.assertEqual(UbuntuDrivers.detect.auto_install_filter({}), {})
+        self.assertEqual(HuayraDrivers.detect.auto_install_filter({}), {})
 
         pkgs = {'bcmwl-kernel-source': {}, 
                 'nvidia-current': {},
                 'fglrx-updates': {},
                 'pvr-omap4-egl': {}}
 
-        self.assertEqual(set(UbuntuDrivers.detect.auto_install_filter(pkgs)),
+        self.assertEqual(set(HuayraDrivers.detect.auto_install_filter(pkgs)),
             set(['bcmwl-kernel-source', 'pvr-omap4-egl', 'nvidia-current']))
 
         # should not include non-recommended variants
         pkgs = {'bcmwl-kernel-source': {}, 
                 'nvidia-current': {'recommended': False},
                 'nvidia-173': {'recommended': True}}
-        self.assertEqual(set(UbuntuDrivers.detect.auto_install_filter(pkgs)),
+        self.assertEqual(set(HuayraDrivers.detect.auto_install_filter(pkgs)),
                          set(['bcmwl-kernel-source', 'nvidia-173']))
 
     def test_detect_plugin_packages(self):
@@ -371,17 +371,17 @@ exec /sbin/modinfo "$@"
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            self.assertEqual(UbuntuDrivers.detect.detect_plugin_packages(cache), {})
+            self.assertEqual(HuayraDrivers.detect.detect_plugin_packages(cache), {})
 
             self._gen_detect_plugins()
             # suppress logging the deliberate errors in our test plugins to
             # stderr
             logging.getLogger().setLevel(logging.CRITICAL)
-            self.assertEqual(UbuntuDrivers.detect.detect_plugin_packages(cache), 
+            self.assertEqual(HuayraDrivers.detect.detect_plugin_packages(cache), 
                              {'special.py': ['special']})
 
             os.mkdir(os.path.join(self.umockdev.get_sys_dir(), 'pickyon'))
-            self.assertEqual(UbuntuDrivers.detect.detect_plugin_packages(cache), 
+            self.assertEqual(HuayraDrivers.detect.detect_plugin_packages(cache), 
                              {'special.py': ['special'], 'picky.py': ['picky']})
         finally:
             logging.getLogger().setLevel(logging.INFO)
@@ -441,7 +441,7 @@ def detect(apt):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            linux_headers = UbuntuDrivers.detect.get_linux_headers(cache)
+            linux_headers = HuayraDrivers.detect.get_linux_headers(cache)
             self.assertEqual(linux_headers, '')
 
             # Install kernel packages
@@ -453,7 +453,7 @@ def detect(apt):
                         'linux-image-generic-lts-quantal'):
                 cache[pkg].mark_install()
 
-            linux_headers = UbuntuDrivers.detect.get_linux_headers(cache)
+            linux_headers = HuayraDrivers.detect.get_linux_headers(cache)
             self.assertEqual(linux_headers, 'linux-headers-generic-lts-quantal')
         finally:
             chroot.remove()
@@ -485,7 +485,7 @@ def detect(apt):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            linux = UbuntuDrivers.detect.get_linux(cache)
+            linux = HuayraDrivers.detect.get_linux(cache)
             self.assertEqual(linux, '')
 
             # Install kernel packages
@@ -497,7 +497,7 @@ def detect(apt):
                         'linux-image-generic-lts-quantal'):
                 cache[pkg].mark_install()
 
-            linux = UbuntuDrivers.detect.get_linux(cache)
+            linux = HuayraDrivers.detect.get_linux(cache)
             self.assertEqual(linux, 'linux-generic-lts-quantal')
         finally:
             chroot.remove()
@@ -750,7 +750,7 @@ class PluginsTest(unittest.TestCase):
         self.assertEqual(ud.returncode, 0)
 
 class KernelDectionTest(unittest.TestCase):
-    '''Test UbuntuDrivers.kerneldetection'''
+    '''Test HuayraDrivers.kerneldetection'''
 
     def setUp(self):
         '''Create a fake sysfs'''
@@ -791,7 +791,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, '')
 
@@ -804,7 +804,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-generic-lts-quantal'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, 'linux-headers-generic-lts-quantal')
         finally:
@@ -855,7 +855,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, '')
 
@@ -874,7 +874,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-3.0.27-1-ac100'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, 'linux-headers-powerpc-smp')
         finally:
@@ -925,7 +925,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, '')
 
@@ -944,7 +944,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-3.0.27-1-ac100'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, 'linux-headers-powerpc64-smp')
         finally:
@@ -995,7 +995,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, '')
 
@@ -1014,7 +1014,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-3.0.27-1-ac100'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, 'linux-headers-omap4')
         finally:
@@ -1049,7 +1049,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, '')
 
@@ -1062,7 +1062,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-3.0.27-1-ac100'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, 'linux-headers-powerpc-e500')
         finally:
@@ -1094,7 +1094,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, '')
 
@@ -1107,7 +1107,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-generic-lts-quantal'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux_headers = kernel_detection.get_linux_headers_metapackage()
             self.assertEqual(linux_headers, 'linux-headers-lowlatency')
         finally:
@@ -1140,7 +1140,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, '')
 
@@ -1153,7 +1153,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-generic-lts-quantal'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, 'linux-generic-lts-quantal')
         finally:
@@ -1204,7 +1204,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, '')
 
@@ -1223,7 +1223,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-3.0.27-1-ac100'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, 'linux-powerpc-smp')
         finally:
@@ -1274,7 +1274,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, '')
 
@@ -1293,7 +1293,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-3.0.27-1-ac100'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, 'linux-powerpc64-smp')
         finally:
@@ -1344,7 +1344,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, '')
 
@@ -1363,7 +1363,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-3.0.27-1-ac100'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, 'linux-omap4')
         finally:
@@ -1398,7 +1398,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, '')
 
@@ -1411,7 +1411,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-3.0.27-1-ac100'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, 'linux-powerpc-e500')
         finally:
@@ -1443,7 +1443,7 @@ class KernelDectionTest(unittest.TestCase):
 
             cache = apt.Cache(rootdir=chroot.path)
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, '')
 
@@ -1456,7 +1456,7 @@ class KernelDectionTest(unittest.TestCase):
                         'linux-image-generic-lts-quantal'):
                 cache[pkg].mark_install()
 
-            kernel_detection = UbuntuDrivers.kerneldetection.KernelDetection(cache)
+            kernel_detection = HuayraDrivers.kerneldetection.KernelDetection(cache)
             linux = kernel_detection.get_linux_metapackage()
             self.assertEqual(linux, 'linux-lowlatency')
         finally:
