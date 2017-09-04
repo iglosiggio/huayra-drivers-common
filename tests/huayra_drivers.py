@@ -527,7 +527,7 @@ APT::Get::AllowUnauthenticated "true";
 ''' % {'root': klass.chroot.path})
         os.environ['APT_CONFIG'] = klass.chroot_apt_conf
 
-        klass.tool_path = os.path.join(ROOT_DIR, 'ubuntu-drivers')
+        klass.tool_path = os.path.join(ROOT_DIR, 'huayra-drivers')
 
         # no custom detection plugins by default
         klass.plugin_dir = os.path.join(klass.chroot.path, 'detect')
@@ -739,7 +739,7 @@ class PluginsTest(unittest.TestCase):
         env = os.environ.copy()
         env['UBUNTU_DRIVERS_DETECT_DIR'] = os.path.join(ROOT_DIR, 'detect-plugins')
 
-        ud = subprocess.Popen([os.path.join(ROOT_DIR, 'ubuntu-drivers'), 'debug'],
+        ud = subprocess.Popen([os.path.join(ROOT_DIR, 'huayra-drivers'), 'debug'],
                 universal_newlines=True, stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE, env=env)
         out, err = ud.communicate()

@@ -1,4 +1,4 @@
-ubuntu-drivers-common (1:0.4.21) UNRELEASED; urgency=medium
+huayra-drivers-common (1:0.4.21) UNRELEASED; urgency=medium
 
   * Removed unused quirks and nvidia subsystem
   * Preparing for Huayra GNU/Linux

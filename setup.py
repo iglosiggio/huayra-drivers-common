@@ -22,5 +22,5 @@ setup(
                 ("/usr/share/huayra-drivers-common/detect", glob.glob("detect-plugins/*")),
                 ("/usr/share/doc/huayra-drivers-common", ['README.md']),
                ],
-    scripts=["huyra-drivers"],
+    scripts=["huayra-drivers"],
 )
