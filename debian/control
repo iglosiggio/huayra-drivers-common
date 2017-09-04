@@ -1,7 +1,7 @@
-Source: ubuntu-drivers-common
+Source: huayra-drivers-common
 Section: admin
 Priority: optional
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Maintainer: Ignacio Losiggio <iglosiggio@gmail.com>
 Build-Depends: debhelper (>= 9),
  po-debconf,
  dh-systemd,
@@ -11,7 +11,6 @@ Build-Depends: debhelper (>= 9),
  lib32gcc1 [amd64], libc6-i386 [amd64],
  linux-libc-dev,
  pkg-config,
- python3-xkit (>= 0.5.0),
  aptdaemon,
  python3-aptdaemon.test (>= 0.43+bzr810-0ubuntu2~),
  python3-gi,
@@ -26,8 +25,8 @@ Build-Depends: debhelper (>= 9),
  libdrm-dev,
  python3-dbus
 Standards-Version: 3.9.8
-Vcs-Git: git://github.com/tseliot/ubuntu-drivers-common.git
-Vcs-Browser: https://github.com/tseliot/ubuntu-drivers-common
+Vcs-Git: git://github.com/iglosiggio/huayra-drivers-common.git
+Vcs-Browser: https://github.com/iglosiggio/huayra-drivers-common
 X-Python3-Version: >= 3.2
 
 Package: ubuntu-drivers-common
@@ -39,17 +38,12 @@ Depends: ${python3:Depends},
  debconf (>= 0.5.00) | debconf-2.0,
  pciutils,
  python3-apt,
- python3-xkit,
  udev (>= 204-0ubuntu4~),
  pciutils,
  usbutils,
  alsa-utils,
  kmod | module-init-tools,
 Suggests: python3-aptdaemon.pkcompat
-Replaces: nvidia-common (<< 1:0.2.46), jockey-common, jockey-gtk, jockey-kde
-Conflicts: nvidia-common (<< 1:0.2.46), jockey-common, jockey-gtk, jockey-kde
-Breaks: nvidia-prime (<< 0.6)
-Provides: nvidia-common, jockey-common, jockey-gtk, jockey-kde
 Description: Detect and install additional Ubuntu driver packages
  This package aggregates and abstracts Ubuntu specific logic and knowledge
  about third-party driver packages. It provides:
@@ -59,10 +53,6 @@ Description: Detect and install additional Ubuntu driver packages
  .
   - an "ubuntu-drivers" command line tool to list or install driver packages
     (mostly for integration in installers).
- .
-  - some NVidia specific support code to find the most appropriate driver
-    version, as well as setting up the alternatives symlinks that the
-    proprietary NVidia and FGLRX packages use.
 
 Package: dh-modaliases
 Architecture: all
@@ -79,21 +69,4 @@ Description: debhelper extension for scanning kernel module aliases
  This enables software which is looking for missing driver packages (such as
  Jockey or the operating system installer) to identify which package(s) will
  provide a driver for a piece of hardware, identified by its modalias.
- 
-Package: nvidia-common
-Section: oldlibs
-Priority: extra
-Architecture: i386 amd64 armel armhf
-Depends: ubuntu-drivers-common, ${misc:Depends}
-Description: transitional package for ubuntu-drivers-common
- This is a transitional package for ubuntu-drivers-common. You can remove it
- after upgrading.
 
-Package: fglrx-pxpress
-Section: oldlibs
-Priority: extra
-Architecture: i386 amd64
-Depends: ubuntu-drivers-common, ${misc:Depends}
-Description: transitional package for ubuntu-drivers-common
- This is a transitional package for ubuntu-drivers-common. You can remove it
- after upgrading.

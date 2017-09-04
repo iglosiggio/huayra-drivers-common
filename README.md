@@ -1,12 +1,14 @@
-ubuntu-drivers-common
+huayra-drivers-common
 =====================
 
-This package aggregates and abstracts Ubuntu specific logic and knowledge
+This package aggregates and abstracts Huayra specific logic and knowledge
 about third-party driver packages, and provides APIs for installers and driver
-configuration GUIs. It also contains some NVidia specific support code to find
-the most appropriate driver version (as we usually ship several), as well as
-setting up the alternatives symlinks that the proprietary NVidia and FGLRX
-packages use.
+configuration GUIs.
+
+This package is a customized version of [ubuntu-drivers-common] [upstream]
+tailored for the needs of the _Conectar Igualdad_ project.
+
+[upstream]: https://github.com/tselliot/ubuntu-drivers-common
 
 Command line interface
 ----------------------

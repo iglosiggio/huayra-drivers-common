@@ -1,4 +1,4 @@
-# ubuntu-drivers-common custom detect plugin for open-vm-dkms
+# ubuntu-drivers-common custom detect plugin for open-vm-tools-dkms
 #
 # (C) 2012 Canonical Ltd.
 # Author: Martin Pitt <martin.pitt@ubuntu.com>
@@ -8,4 +8,4 @@ import os
 
 def detect(apt_cache):
     if os.path.exists('/sys/module/vmxnet'):
-        return ['open-vm-dkms']
+        return ['open-vm-tools-dkms']

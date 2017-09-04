@@ -1,10 +1,10 @@
 Metadata-Version: 1.0
-Name: ubuntu-drivers-common
+Name: huayra-drivers-common
 Version: 0.1
 Summary: Detect and install additional Ubuntu driver packages
-Home-page: http://pyserial.sourceforge.net/
-Author: Alberto Milone
-Author-email: albertomilone@alice.it
+Home-page: http://github.com/iglosiggio/huayra-drivers-common/
+Author: Ignacio Losiggio
+Author-email: iglosiggio@gmail.com
 License: GPLv2
-Description: Detect and install additional Ubuntu driver packages
+Description: Detect and install additional Huayra driver packages
 Platform: Linux
