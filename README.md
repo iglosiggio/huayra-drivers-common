@@ -5,7 +5,7 @@ This package aggregates and abstracts Huayra specific logic and knowledge
 about third-party driver packages, and provides APIs for installers and driver
 configuration GUIs.
 
-This package is a customized version of [ubuntu-drivers-common] [upstream]
+This package is a customized version of [ubuntu-drivers-common][upstream]
 tailored for the needs of the _Conectar Igualdad_ project.
 
 [upstream]: https://github.com/tselliot/ubuntu-drivers-common
