@@ -8,7 +8,7 @@ configuration GUIs.
 This package is a customized version of [ubuntu-drivers-common][upstream]
 tailored for the needs of the _Conectar Igualdad_ project.
 
-[upstream]: https://github.com/tselliot/ubuntu-drivers-common
+[upstream]: https://github.com/tseliot/ubuntu-drivers-common
 
 Command line interface
 ----------------------
