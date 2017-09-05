@@ -1,4 +1,4 @@
-huayra-drivers-common (1:0.4.22) UNRELEASED; urgency=medium
+huayra-drivers-common (1:0.4.21) UNRELEASED; urgency=medium
 
   * Removed Quirks
   * Removed nvidia subsystem
