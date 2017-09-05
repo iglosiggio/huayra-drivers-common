@@ -20,6 +20,10 @@ from HuayraDrivers import kerneldetection
 
 system_architecture = apt.apt_pkg.get_architectures()[0]
 
+# Add /sbin to the PATH for modinfo on Debian
+if os.environ['PATH'].find('/sbin') < 0:
+    os.environ['PATH'] += ':/sbin'
+
 def system_modaliases():
     '''Get modaliases present in the system.
 
@@ -215,7 +219,7 @@ def _is_manual_install(pkg):
     if not module:
         return False
 
-    modinfo = subprocess.Popen(['/sbin/modinfo', module], stdout=subprocess.PIPE,
+    modinfo = subprocess.Popen(['modinfo', module], stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     modinfo.communicate()
     if modinfo.returncode == 0:

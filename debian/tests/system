@@ -30,20 +30,20 @@ def program_out_success(argv, self):
     return out
 
 class TestSystem(unittest.TestCase):
-    '''Run ubuntu-drivers on the current system.
+    '''Run huayra-drivers on the current system.
 
     We cannot assume anything about the output here, we just ensure that the
     program is found and works.
     '''
     def test_list(self):
-        '''ubuntu-drivers list succeeds'''
+        '''huayra-drivers list succeeds'''
 
-        program_out_success(['ubuntu-drivers', 'list'], self)
+        program_out_success(['huayra-drivers', 'list'], self)
 
     def test_debug(self):
-        '''ubuntu-drivers debug succeeds'''
+        '''huayra-drivers debug succeeds'''
 
-        o = program_out_success(['ubuntu-drivers', 'debug'], self)
+        o = program_out_success(['huayra-drivers', 'debug'], self)
 
         # let's assume we have at least one pci device
         self.assertTrue('\npci:' in o)
@@ -53,7 +53,7 @@ class TestSystem(unittest.TestCase):
         self.assertTrue('sl-modem' in o, o)
         self.assertTrue('=== matching driver packages ===' in o, o)
 
-class TestUbuntuDrivers(unittest.TestCase):
+class TestHuayraDrivers(unittest.TestCase):
     '''Check that we can detect and install an actual driver packge'''
 
     @classmethod
@@ -65,9 +65,6 @@ class TestUbuntuDrivers(unittest.TestCase):
         '''
         assert os.path.exists('/usr/src/linux-headers-' + os.uname()[2]), \
                'Headers not installed for running kernel (%s)' % os.uname()[2]
-
-        # disable hybrid detection
-        os.environ['UBUNTU_DRIVERS_XORG_LOG'] = '/nonexisting'
 
     def setUp(self):
         self.testbed = UMockdev.Testbed.new()
@@ -84,13 +81,13 @@ class TestUbuntuDrivers(unittest.TestCase):
             self.testbed.add_device('pci', 'mydev', None, ['modalias', alias], [])
 
             # detection works
-            o = program_out_success(['ubuntu-drivers', 'list'], self)
+            o = program_out_success(['huayra-drivers', 'list'], self)
             self.assertTrue(package + '\n' in o, o)
 
         try:
             if auto_install:
                 # autoinstall works
-                (c, o, e) = program_out(['ubuntu-drivers', 'autoinstall'])
+                (c, o, e) = program_out(['huayra-drivers', 'autoinstall'])
                 self.assertEqual(c, 0, e)
                 if not allow_errors:
                     self.assertEqual(e, '')

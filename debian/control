@@ -44,8 +44,8 @@ Depends: ${python3:Depends},
  alsa-utils,
  kmod | module-init-tools,
 Suggests: python3-aptdaemon.pkcompat
-Description: Detect and install additional Ubuntu driver packages
- This package aggregates and abstracts Ubuntu specific logic and knowledge
+Description: Detect and install additional Huayra driver packages
+ This package aggregates and abstracts Huayra specific logic and knowledge
  about third-party driver packages. It provides:
  .
   - a Python API for detecting driver packages for a particular piece of

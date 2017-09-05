@@ -45,8 +45,5 @@ testbed.add_device('pci', 'bcmwifi', None,
                     'device', '0x4353',
                    ], [])
 
-# skip hybrid system detection
-os.environ['UBUNTU_DRIVERS_XORG_LOG'] = '/dev/null'
-
 # run wrapped program
 subprocess.call(['umockdev-wrapper'] + sys.argv[1:])

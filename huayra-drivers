@@ -3,8 +3,6 @@
 '''Driver package query/installation tool for Ubuntu'''
 
 # (C) 2012 Canonical Ltd.
-# Author: Martin Pitt <martin.pitt@ubuntu.com>
-#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -31,7 +29,7 @@ def parse_args():
             commands.append(name)
             command_help += '\n   %s: %s' % (name, globals()[c].__doc__)
 
-    parser = argparse.ArgumentParser(description='List/install driver packages for Ubuntu.',
+    parser = argparse.ArgumentParser(description='List/install driver packages for Huayra.',
             epilog=command_help, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('command', metavar='<command>', choices=commands, 
             help='See below')

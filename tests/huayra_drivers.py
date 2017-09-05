@@ -503,7 +503,7 @@ def detect(apt):
             chroot.remove()
 
 class ToolTest(unittest.TestCase):
-    '''Test ubuntu-drivers tool'''
+    '''Test huayra-drivers tool'''
 
     @classmethod
     def setUpClass(klass):
@@ -554,7 +554,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(apt.returncode, 0)
 
     def test_list_chroot(self):
-        '''ubuntu-drivers list for fake sysfs and chroot'''
+        '''huayra-drivers list for fake sysfs and chroot'''
 
         ud = subprocess.Popen([self.tool_path, 'list'],
                 universal_newlines=True, stdout=subprocess.PIPE,
@@ -566,7 +566,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(ud.returncode, 0)
 
     def test_list_detect_plugins(self):
-        '''ubuntu-drivers list includes custom detection plugins'''
+        '''huayra-drivers list includes custom detection plugins'''
 
         os.mkdir(self.plugin_dir)
         self.addCleanup(shutil.rmtree, self.plugin_dir)
@@ -585,7 +585,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(ud.returncode, 0)
 
     def test_list_system(self):
-        '''ubuntu-drivers list for fake sysfs and system apt'''
+        '''huayra-drivers list for fake sysfs and system apt'''
 
         env = os.environ.copy()
         del env['APT_CONFIG']
@@ -600,7 +600,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(ud.returncode, 0)
 
     def test_devices_chroot(self):
-        '''ubuntu-drivers devices for fake sysfs and chroot'''
+        '''huayra-drivers devices for fake sysfs and chroot'''
 
         ud = subprocess.Popen([self.tool_path, 'devices'],
                 universal_newlines=True, stdout=subprocess.PIPE,
@@ -617,7 +617,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(ud.returncode, 0)
 
     def test_devices_detect_plugins(self):
-        '''ubuntu-drivers devices includes custom detection plugins'''
+        '''huayra-drivers devices includes custom detection plugins'''
 
         os.mkdir(self.plugin_dir)
         self.addCleanup(shutil.rmtree, self.plugin_dir)
@@ -640,7 +640,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(ud.returncode, 0)
 
     def test_devices_system(self):
-        '''ubuntu-drivers devices for fake sysfs and system apt'''
+        '''huayra-drivers devices for fake sysfs and system apt'''
 
         env = os.environ.copy()
         del env['APT_CONFIG']
@@ -655,7 +655,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(ud.returncode, 0)
 
     def test_auto_install_chroot(self):
-        '''ubuntu-drivers autoinstall for fake sysfs and chroot'''
+        '''huayra-drivers autoinstall for fake sysfs and chroot'''
 
         ud = subprocess.Popen([self.tool_path, 'autoinstall'],
                 universal_newlines=True, stdout=subprocess.PIPE,
@@ -677,7 +677,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(ud.returncode, 0)
 
     def test_auto_install_packagelist(self):
-        '''ubuntu-drivers autoinstall package list creation'''
+        '''huayra-drivers autoinstall package list creation'''
 
         listfile = os.path.join(self.chroot.path, 'pkgs')
         self.addCleanup(os.unlink, listfile)
@@ -693,7 +693,7 @@ APT::Get::AllowUnauthenticated "true";
             self.assertEqual(f.read(), 'bcmwl-kernel-source\n')
 
     def test_auto_install_system(self):
-        '''ubuntu-drivers autoinstall for fake sysfs and system apt'''
+        '''huayra-drivers autoinstall for fake sysfs and system apt'''
 
         env = os.environ.copy()
         del env['APT_CONFIG']
@@ -708,7 +708,7 @@ APT::Get::AllowUnauthenticated "true";
         self.assertEqual(ud.returncode, 0)
 
     def test_debug(self):
-        '''ubuntu-drivers debug'''
+        '''huayra-drivers debug'''
 
         os.mkdir(self.plugin_dir)
         self.addCleanup(shutil.rmtree, self.plugin_dir)

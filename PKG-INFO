@@ -1,7 +1,7 @@
 Metadata-Version: 1.0
 Name: huayra-drivers-common
 Version: 0.1
-Summary: Detect and install additional Ubuntu driver packages
+Summary: Detect and install additional Huayra driver packages
 Home-page: http://github.com/iglosiggio/huayra-drivers-common/
 Author: Ignacio Losiggio
 Author-email: iglosiggio@gmail.com
