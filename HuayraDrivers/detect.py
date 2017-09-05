@@ -215,7 +215,7 @@ def _is_manual_install(pkg):
     if not module:
         return False
 
-    modinfo = subprocess.Popen(['modinfo', module], stdout=subprocess.PIPE,
+    modinfo = subprocess.Popen(['/sbin/modinfo', module], stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     modinfo.communicate()
     if modinfo.returncode == 0:
