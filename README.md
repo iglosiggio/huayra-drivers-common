@@ -12,7 +12,7 @@ tailored for the needs of the _Conectar Igualdad_ project.
 
 Command line interface
 ----------------------
-The simplest frontend is the "huayra-drivers" command line tool. You can use
+The simplest frontend is the `huayra-drivers` command line tool. You can use
 it to show the available driver packages which apply to the current system
 (`huayra-drivers list`), or to install all drivers which are appropriate for
 automatic installation (`sudo huayra-drivers autoinstall`), which is mostly
@@ -66,8 +66,7 @@ alias:          pci:v00008086d*sv*sd*bc04sc03i00*
 ```
 
 Driver packages which are not installed by default (e. g. backports of drivers
-from newer Linux packages, or the proprietary NVidia driver package
-"nvidia-current") have a "Modaliases:" package header which includes all
+from newer Linux packages) have a "Modaliases:" package header which includes all
 modalias patterns from all kernel modules that they ship. It is recommended to
 add these headers to the package with `dh_modaliases(1)`.
 
@@ -79,7 +78,7 @@ hardware.
 Custom detection plugins
 ------------------------
 For some kinds of drivers the modalias detection approach does not work. For
-example, the "sl-modem-daemon" driver requires some checks in
+example, the `sl-modem-daemon` driver requires some checks in
 `/proc/asound/cards` and `aplay -l` to decide whether or not it applies to the
 system. These special cases can be put into a "detection plugin", by adding a
 small piece of Python code to `/usr/share/huayra-drivers-common/detect/NAME.py`
