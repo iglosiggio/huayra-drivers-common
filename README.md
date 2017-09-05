@@ -14,16 +14,16 @@ Command line interface
 ----------------------
 The simplest frontend is the "huayra-drivers" command line tool. You can use
 it to show the available driver packages which apply to the current system
-(huayra-drivers list), or to install all drivers which are appropriate for
-automatic installation (sudo huayra-drivers autoinstall), which is mostly
+(`huayra-drivers list`), or to install all drivers which are appropriate for
+automatic installation (`sudo huayra-drivers autoinstall`), which is mostly
 useful for integration into installers.
 
-Please see "huayra-drivers --help" for details.
+Please see `huayra-drivers --help` for details.
 
 
 Python API
 ----------
-The UbuntuDrivers.detect Python module provides some functions to detect the
+The `HuayraDrivers.detect` Python module provides some functions to detect the
 system's hardware, matching driver packages, and packages which are eligible
 for automatic installation.
 
@@ -80,10 +80,10 @@ Custom detection plugins
 ------------------------
 For some kinds of drivers the modalias detection approach does not work. For
 example, the "sl-modem-daemon" driver requires some checks in
-/proc/asound/cards and "aplay -l" to decide whether or not it applies to the
+`/proc/asound/cards` and `aplay -l` to decide whether or not it applies to the
 system. These special cases can be put into a "detection plugin", by adding a
-small piece of Python code to /usr/share/ubuntu-drivers-common/detect/NAME.py
-(shipped in ./detect-plugins/ in the ubuntu-drivers-common source). They need
+small piece of Python code to `/usr/share/huayra-drivers-common/detect/NAME.py`
+(shipped in `./detect-plugins/` in the huayra-drivers-common source). They need
 to export a method
 
 ```python
