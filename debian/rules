@@ -34,5 +34,5 @@ override_dh_python3:
 override_dh_clean:
 	rm -rf build
 	rm -rf *.egg-info
-	rm -f debian/ubuntu-drivers-common.maintscript
+	rm -f debian/huayra-drivers-common.maintscript
 	dh_clean

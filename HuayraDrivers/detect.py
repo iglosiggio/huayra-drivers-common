@@ -1,4 +1,4 @@
-'''Hardware and driver package detection functionality for Ubuntu systems.'''
+'''Hardware and driver package detection functionality for Huayra systems.'''
 
 # (C) 2012 Canonical Ltd.
 # Author: Martin Pitt <martin.pitt@ubuntu.com>
